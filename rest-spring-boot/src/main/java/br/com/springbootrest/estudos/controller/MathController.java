@@ -1,18 +1,19 @@
 package br.com.springbootrest.estudos.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.springbootrest.estudos.calculo.Calculos;
 import br.com.springbootrest.estudos.calculo.DecimalFormat;
-import br.com.springbootrest.estudos.calculo.Math;
 import br.com.springbootrest.estudos.exception.UnsuportedMathOperationException;
 
 @RestController
 public class MathController {
 
-	private Calculos calculadora = new Math();
+	@Autowired
+	private Calculos calculadora;
 
 	@GetMapping(value = "/soma/{a}/{b}")
 	public Double soma(@PathVariable("a") String a, @PathVariable("b") String b)

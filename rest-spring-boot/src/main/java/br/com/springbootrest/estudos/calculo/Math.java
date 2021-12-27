@@ -1,5 +1,8 @@
 package br.com.springbootrest.estudos.calculo;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Math implements Calculos {
 
 	public double somar(double a, double b) {
