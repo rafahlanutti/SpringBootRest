@@ -1,4 +1,4 @@
-package br.com.springbootrest.estudos.converter;
+package br.com.springbootrest.estudos.mapper;
 
 import java.util.ArrayList;
 import java.util.List;

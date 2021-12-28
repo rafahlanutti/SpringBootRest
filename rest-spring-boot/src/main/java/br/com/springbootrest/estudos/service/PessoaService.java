@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.springbootrest.estudos.converter.DozerConverter;
 import br.com.springbootrest.estudos.data.model.Pessoa;
 import br.com.springbootrest.estudos.data.vo.PessoaVO;
 import br.com.springbootrest.estudos.exception.ResourceNotFoundException;
+import br.com.springbootrest.estudos.mapper.DozerMapper;
 import br.com.springbootrest.estudos.repository.PessoaRepository;
 
 @Service
@@ -19,17 +19,17 @@ public class PessoaService {
 
 	public PessoaVO obterPorId(Long id) {
 
-		return DozerConverter.parseObject(repository.findById(id)
+		return DozerMapper.parseObject(repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Não encontrou nada com esse ID")), PessoaVO.class);
 	}
 
 	public List<PessoaVO> obterTodos() {
-		return DozerConverter.parseListObjects(repository.findAll(), PessoaVO.class);
+		return DozerMapper.parseListObjects(repository.findAll(), PessoaVO.class);
 	}
 
 	public PessoaVO criar(PessoaVO pessoaVO) {
-		var entity = DozerConverter.parseObject(pessoaVO, Pessoa.class);
-		return DozerConverter.parseObject(repository.save(entity), PessoaVO.class);
+		var entity = DozerMapper.parseObject(pessoaVO, Pessoa.class);
+		return DozerMapper.parseObject(repository.save(entity), PessoaVO.class);
 	}
 
 	public PessoaVO atualizar(PessoaVO pessoaVO) {
@@ -45,7 +45,7 @@ public class PessoaService {
 	}
 
 	public void deletar(Long id) {
-		repository.delete(DozerConverter.parseObject(this.obterPorId(id), Pessoa.class));
+		repository.delete(DozerMapper.parseObject(this.obterPorId(id), Pessoa.class));
 	}
 
 }

@@ -1,0 +1,1 @@
+INSERT INTO `pessoa` VALUES (1,'Heitor de Moura Estev�o - Teres�polis - RJ','Masculino','Rafael','Lanutti'),(2,'Heitor de Moura Estev�o - Teres�polis - RJ','Masculino','Bibi','Lanutti');

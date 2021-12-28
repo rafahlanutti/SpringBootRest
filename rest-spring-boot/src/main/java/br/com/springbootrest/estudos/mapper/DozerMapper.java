@@ -1,4 +1,4 @@
-package br.com.springbootrest.estudos.converter;
+package br.com.springbootrest.estudos.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
 
-public class DozerConverter {
+public class DozerMapper {
 
-	private DozerConverter() {
+	private DozerMapper() {
 		super();
 	}
 

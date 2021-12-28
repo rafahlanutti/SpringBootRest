@@ -1,4 +1,4 @@
-package br.com.springbootrest.estudos.converter;
+package br.com.springbootrest.estudos.mapper;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.junit.Test;
 import br.com.springbootrest.estudos.data.model.Pessoa;
 import br.com.springbootrest.estudos.data.vo.PessoaVO;
 
-public class DozerConverterTest {
+public class DozeMapperTest {
 
 	MockPessoa inputObject;
 
@@ -20,7 +20,7 @@ public class DozerConverterTest {
 
 	@Test
 	public void parseEntityToVOTest() {
-		PessoaVO output = DozerConverter.parseObject(inputObject.mockEntity(), PessoaVO.class);
+		PessoaVO output = DozerMapper.parseObject(inputObject.mockEntity(), PessoaVO.class);
 		Assert.assertEquals(Long.valueOf(0L), output.getId());
 		Assert.assertEquals("Nome0", output.getNome());
 		Assert.assertEquals("Sobrenome0", output.getSobrenome());
@@ -30,7 +30,7 @@ public class DozerConverterTest {
 
 	@Test
 	public void parseEntityListToVOListTest() {
-		List<PessoaVO> outputList = DozerConverter.parseListObjects(inputObject.mockEntityList(), PessoaVO.class);
+		List<PessoaVO> outputList = DozerMapper.parseListObjects(inputObject.mockEntityList(), PessoaVO.class);
 		PessoaVO outputZero = outputList.get(0);
 
 		Assert.assertEquals(Long.valueOf(0L), outputZero.getId());
@@ -58,7 +58,7 @@ public class DozerConverterTest {
 
 	@Test
 	public void parseVOToEntityTest() {
-		Pessoa output = DozerConverter.parseObject(inputObject.mockVO(), Pessoa.class);
+		Pessoa output = DozerMapper.parseObject(inputObject.mockVO(), Pessoa.class);
 		Assert.assertEquals(Long.valueOf(0L), output.getId());
 		Assert.assertEquals("Nome0", output.getNome());
 		Assert.assertEquals("Sobrenome0", output.getSobrenome());
@@ -68,7 +68,7 @@ public class DozerConverterTest {
 
 	@Test
 	public void parserVOListToEntityListTest() {
-		List<Pessoa> pessoas = DozerConverter.parseListObjects(inputObject.mockVOList(), Pessoa.class);
+		List<Pessoa> pessoas = DozerMapper.parseListObjects(inputObject.mockVOList(), Pessoa.class);
 		Pessoa pessoa = pessoas.get(5);
 
 		Assert.assertEquals(Long.valueOf(5L), pessoa.getId());
