@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.springbootrest.estudos.converter.DozerConverter;
 import br.com.springbootrest.estudos.data.model.Pessoa;
+import br.com.springbootrest.estudos.data.vo.PessoaVO;
 import br.com.springbootrest.estudos.exception.ResourceNotFoundException;
 import br.com.springbootrest.estudos.repository.PessoaRepository;
 
@@ -15,34 +17,35 @@ public class PessoaService {
 	@Autowired
 	private PessoaRepository repository;
 
-	public Pessoa obterPorId(Long id) {
-		return repository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Não encontrou nada com esse ID"));
+	public PessoaVO obterPorId(Long id) {
+
+		return DozerConverter.parseObject(repository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Não encontrou nada com esse ID")), PessoaVO.class);
 	}
 
-	public List<Pessoa> obterTodos() {
-		return repository.findAll();
+	public List<PessoaVO> obterTodos() {
+		return DozerConverter.parseListObjects(repository.findAll(), PessoaVO.class);
 	}
 
-	public Pessoa criar(Pessoa pessoa) {
-		return repository.save(pessoa);
+	public PessoaVO criar(PessoaVO pessoaVO) {
+		var entity = DozerConverter.parseObject(pessoaVO, Pessoa.class);
+		return DozerConverter.parseObject(repository.save(entity), PessoaVO.class);
 	}
 
-	public Pessoa atualizar(Pessoa pessoa) {
+	public PessoaVO atualizar(PessoaVO pessoaVO) {
 
-		var entity = this.obterPorId(pessoa.getId());
+		var entity = this.obterPorId(pessoaVO.getId());
 
-		entity.setEndereco(pessoa.getEndereco());
-		entity.setGenero(pessoa.getGenero());
-		entity.setNome(pessoa.getNome());
-		entity.setSobrenome(pessoa.getSobrenome());
+		entity.setEndereco(pessoaVO.getEndereco());
+		entity.setGenero(pessoaVO.getGenero());
+		entity.setNome(pessoaVO.getNome());
+		entity.setSobrenome(pessoaVO.getSobrenome());
 
-		return repository.save(entity);
+		return this.criar(entity);
 	}
 
 	public void deletar(Long id) {
-
-		repository.delete(this.obterPorId(id));
+		repository.delete(DozerConverter.parseObject(this.obterPorId(id), Pessoa.class));
 	}
 
 }
