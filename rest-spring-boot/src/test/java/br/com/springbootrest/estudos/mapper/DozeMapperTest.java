@@ -6,8 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.springbootrest.estudos.data.model.Pessoa;
-import br.com.springbootrest.estudos.data.vo.PessoaVO;
+import br.com.springbootrest.estudos.core.data.model.Pessoa;
+import br.com.springbootrest.estudos.core.data.vo.PessoaVO;
 
 public class DozeMapperTest {
 
@@ -21,7 +21,7 @@ public class DozeMapperTest {
 	@Test
 	public void parseEntityToVOTest() {
 		PessoaVO output = DozerMapper.parseObject(inputObject.mockEntity(), PessoaVO.class);
-		Assert.assertEquals(Long.valueOf(0L), output.getId());
+		Assert.assertEquals(Long.valueOf(0L), output.getKey());
 		Assert.assertEquals("Nome0", output.getNome());
 		Assert.assertEquals("Sobrenome0", output.getSobrenome());
 		Assert.assertEquals("Endereço0", output.getEndereco());
@@ -33,7 +33,7 @@ public class DozeMapperTest {
 		List<PessoaVO> outputList = DozerMapper.parseListObjects(inputObject.mockEntityList(), PessoaVO.class);
 		PessoaVO outputZero = outputList.get(0);
 
-		Assert.assertEquals(Long.valueOf(0L), outputZero.getId());
+		Assert.assertEquals(Long.valueOf(0L), outputZero.getKey());
 		Assert.assertEquals("Nome0", outputZero.getNome());
 		Assert.assertEquals("Sobrenome0", outputZero.getSobrenome());
 		Assert.assertEquals("Endereço0", outputZero.getEndereco());
@@ -41,7 +41,7 @@ public class DozeMapperTest {
 
 		PessoaVO outputSeven = outputList.get(7);
 
-		Assert.assertEquals(Long.valueOf(7L), outputSeven.getId());
+		Assert.assertEquals(Long.valueOf(7L), outputSeven.getKey());
 		Assert.assertEquals("Nome7", outputSeven.getNome());
 		Assert.assertEquals("Sobrenome7", outputSeven.getSobrenome());
 		Assert.assertEquals("Endereço7", outputSeven.getEndereco());
@@ -49,7 +49,7 @@ public class DozeMapperTest {
 
 		PessoaVO outputTwelve = outputList.get(12);
 
-		Assert.assertEquals(Long.valueOf(12L), outputTwelve.getId());
+		Assert.assertEquals(Long.valueOf(12L), outputTwelve.getKey());
 		Assert.assertEquals("Nome12", outputTwelve.getNome());
 		Assert.assertEquals("Sobrenome12", outputTwelve.getSobrenome());
 		Assert.assertEquals("Endereço12", outputTwelve.getEndereco());

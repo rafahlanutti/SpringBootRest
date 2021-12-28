@@ -1,5 +1,8 @@
 package br.com.springbootrest.estudos.controller;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,24 +28,36 @@ public class PessoaController {
 
 	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
 	public List<PessoaVO> findAll() {
-		return service.obterTodos();
+		var pessoas = service.obterTodos();
+
+		pessoas.forEach(p -> p.add(linkTo(methodOn(PessoaController.class).findById(p.getKey())).withSelfRel()));
+		return pessoas;
 	}
 
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO findById(@PathVariable("id") Long id) {
-		return service.obterPorId(id);
+		var pessoa = service.obterPorId(id);
+
+		pessoa.add(linkTo(methodOn(PessoaController.class).findById(id)).withSelfRel());
+		return pessoa;
 	}
 
 	@PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO create(@RequestBody PessoaVO pessoa) {
-		return service.criar(pessoa);
+		var created = service.criar(pessoa);
+		created.add(linkTo(methodOn(PessoaController.class).findById(created.getKey())).withSelfRel());
+		return created;
+
 	}
 
 	@PutMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO put(@RequestBody PessoaVO pessoa) {
-		return service.atualizar(pessoa);
+		var updated = service.atualizar(pessoa);
+		updated.add(linkTo(methodOn(PessoaController.class).findById(updated.getKey())).withSelfRel());
+		return updated;
+
 	}
 
 	@DeleteMapping("/{id}")

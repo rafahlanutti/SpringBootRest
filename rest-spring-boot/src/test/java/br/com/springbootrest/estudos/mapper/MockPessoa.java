@@ -3,8 +3,8 @@ package br.com.springbootrest.estudos.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.springbootrest.estudos.data.model.Pessoa;
-import br.com.springbootrest.estudos.data.vo.PessoaVO;
+import br.com.springbootrest.estudos.core.data.model.Pessoa;
+import br.com.springbootrest.estudos.core.data.vo.PessoaVO;
 
 public class MockPessoa {
 
@@ -47,7 +47,7 @@ public class MockPessoa {
 		Pessoa.setEndereco("Endereço" + number);
 		Pessoa.setNome("Nome" + number);
 		Pessoa.setGenero(((number % 2) == 0) ? "Masculino" : "Feminino");
-		Pessoa.setId(number.longValue());
+		Pessoa.setKey(number.longValue());
 		Pessoa.setSobrenome("Sobrenome" + number);
 		return Pessoa;
 	}

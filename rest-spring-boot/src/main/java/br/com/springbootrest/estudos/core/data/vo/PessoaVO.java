@@ -1,6 +1,14 @@
 package br.com.springbootrest.estudos.core.data.vo;
 
+import java.io.Serializable;
 import java.util.Objects;
+
+import org.springframework.hateoas.ResourceSupport;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
 
 /**
  * Value Objects pattern
@@ -8,9 +16,14 @@ import java.util.Objects;
  * @author rafa
  *
  */
-public class PessoaVO {
+@JsonPropertyOrder({"id", "nome", "sobrenome", "endereco", "genero"})
+public class PessoaVO extends ResourceSupport implements Serializable {
 
-	private Long id;
+	private static final long serialVersionUID = 1L;
+
+	@Mapping("id")
+	@JsonProperty("id")
+	private Long key;
 
 	private String nome;
 
@@ -24,12 +37,12 @@ public class PessoaVO {
 		super();
 	}
 
-	public Long getId() {
-		return id;
+	public Long getKey() {
+		return key;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Long id) {
+		this.key = id;
 	}
 
 	public String getNome() {
@@ -66,20 +79,23 @@ public class PessoaVO {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(endereco, genero, id, nome, sobrenome);
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(endereco, genero, key, nome, sobrenome);
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		PessoaVO other = (PessoaVO) obj;
 		return Objects.equals(endereco, other.endereco) && Objects.equals(genero, other.genero)
-				&& Objects.equals(id, other.id) && Objects.equals(nome, other.nome)
+				&& Objects.equals(key, other.key) && Objects.equals(nome, other.nome)
 				&& Objects.equals(sobrenome, other.sobrenome);
 	}
 

@@ -34,7 +34,7 @@ public class PessoaService {
 
 	public PessoaVO atualizar(PessoaVO pessoaVO) {
 
-		var entity = this.obterPorId(pessoaVO.getId());
+		var entity = this.obterPorId(pessoaVO.getKey());
 
 		entity.setEndereco(pessoaVO.getEndereco());
 		entity.setGenero(pessoaVO.getGenero());
