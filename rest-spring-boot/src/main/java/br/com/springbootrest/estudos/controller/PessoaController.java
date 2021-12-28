@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.springbootrest.estudos.core.data.vo.PessoaVO;
 import br.com.springbootrest.estudos.service.PessoaService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "Endpoint Pessoas", tags = { "API Pessoa"})
 @RestController
 @RequestMapping("api/v1/pessoa")
 public class PessoaController {
@@ -26,6 +29,7 @@ public class PessoaController {
 	@Autowired
 	private PessoaService service;
 
+	@ApiOperation(value = "Obter todas as pessoas")
 	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
 	public List<PessoaVO> findAll() {
 		var pessoas = service.obterTodos();
@@ -33,7 +37,7 @@ public class PessoaController {
 		pessoas.forEach(p -> p.add(linkTo(methodOn(PessoaController.class).findById(p.getKey())).withSelfRel()));
 		return pessoas;
 	}
-
+	@ApiOperation(value = "Obter Pessoa pelo ID")
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO findById(@PathVariable("id") Long id) {
 		var pessoa = service.obterPorId(id);
@@ -42,6 +46,7 @@ public class PessoaController {
 		return pessoa;
 	}
 
+	@ApiOperation(value = "Criar nova Pessoa")
 	@PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO create(@RequestBody PessoaVO pessoa) {
@@ -50,7 +55,7 @@ public class PessoaController {
 		return created;
 
 	}
-
+	@ApiOperation(value = "Alterar Pessoa")
 	@PutMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO put(@RequestBody PessoaVO pessoa) {
@@ -59,7 +64,7 @@ public class PessoaController {
 		return updated;
 
 	}
-
+	@ApiOperation(value = "Deletar Pessoa")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		service.deletar(id);

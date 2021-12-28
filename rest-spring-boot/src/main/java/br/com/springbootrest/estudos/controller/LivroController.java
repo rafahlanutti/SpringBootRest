@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.springbootrest.estudos.core.data.vo.LivroVO;
 import br.com.springbootrest.estudos.service.LivroService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "Endpoint Livros", tags = { "API livros" })
 @RestController
 @RequestMapping("api/v1/livro")
 public class LivroController {
@@ -26,40 +29,45 @@ public class LivroController {
 	@Autowired
 	private LivroService service;
 
+	@ApiOperation(value = "Obter todos os livros")
 	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
 	public List<LivroVO> findAll() {
-		var pessoas = service.obterTodos();
+		var livros = service.obterTodos();
 
-		pessoas.forEach(p -> p.add(linkTo(methodOn(LivroController.class).findById(p.getKey())).withSelfRel()));
-		return pessoas;
+		livros.forEach(p -> p.add(linkTo(methodOn(LivroController.class).findById(p.getKey())).withSelfRel()));
+		return livros;
 	}
 
+	@ApiOperation(value = "Obter livro pelo ID")
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	public LivroVO findById(@PathVariable("id") Long id) {
-		var pessoa = service.obterPorId(id);
+		var livro = service.obterPorId(id);
 
-		pessoa.add(linkTo(methodOn(LivroController.class).findById(id)).withSelfRel());
-		return pessoa;
+		livro.add(linkTo(methodOn(LivroController.class).findById(id)).withSelfRel());
+		return livro;
 	}
 
+	@ApiOperation(value = "Criar nova livros")
 	@PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
-	public LivroVO create(@RequestBody LivroVO pessoa) {
-		var created = service.criar(pessoa);
+	public LivroVO create(@RequestBody LivroVO livro) {
+		var created = service.criar(livro);
 		created.add(linkTo(methodOn(LivroController.class).findById(created.getKey())).withSelfRel());
 		return created;
 
 	}
 
+	@ApiOperation(value = "Alterar livro")
 	@PutMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
-	public LivroVO put(@RequestBody LivroVO pessoa) {
-		var updated = service.atualizar(pessoa);
+	public LivroVO put(@RequestBody LivroVO livro) {
+		var updated = service.atualizar(livro);
 		updated.add(linkTo(methodOn(LivroController.class).findById(updated.getKey())).withSelfRel());
 		return updated;
 
 	}
 
+	@ApiOperation(value = "Deletar livro")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		service.deletar(id);
