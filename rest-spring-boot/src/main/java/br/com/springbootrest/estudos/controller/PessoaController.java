@@ -13,32 +13,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.springbootrest.estudos.data.vo.PessoaVO;
+import br.com.springbootrest.estudos.core.data.vo.PessoaVO;
 import br.com.springbootrest.estudos.service.PessoaService;
 
 @RestController
-@RequestMapping("/pessoas")
+@RequestMapping("api/v1/pessoa")
 public class PessoaController {
 
 	@Autowired
 	private PessoaService service;
 
-	@GetMapping
+	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
 	public List<PessoaVO> findAll() {
 		return service.obterTodos();
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO findById(@PathVariable("id") Long id) {
 		return service.obterPorId(id);
 	}
 
-	@PostMapping
+	@PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
+			"application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO create(@RequestBody PessoaVO pessoa) {
 		return service.criar(pessoa);
 	}
 
-	@PutMapping
+	@PutMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
+			"application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO put(@RequestBody PessoaVO pessoa) {
 		return service.atualizar(pessoa);
 	}

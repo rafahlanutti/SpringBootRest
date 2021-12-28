@@ -1,26 +1,38 @@
-package br.com.springbootrest.estudos.data.vo;
+package br.com.springbootrest.estudos.core.data.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * Value Objects pattern
- * 
- * @author rafa
- *
- */
-public class PessoaVO {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "pessoa")
+public class Pessoa implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false, length = 100)
 	private String nome;
 
+	@Column(nullable = false, length = 100)
 	private String sobrenome;
 
+	@Column(nullable = false, length = 10)
 	private String genero;
 
+	@Column(nullable = false, length = 100)
 	private String endereco;
 
-	public PessoaVO() {
+	public Pessoa() {
 		super();
 	}
 
@@ -64,6 +76,10 @@ public class PessoaVO {
 		this.endereco = endereco;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(endereco, genero, id, nome, sobrenome);
@@ -77,7 +93,7 @@ public class PessoaVO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PessoaVO other = (PessoaVO) obj;
+		Pessoa other = (Pessoa) obj;
 		return Objects.equals(endereco, other.endereco) && Objects.equals(genero, other.genero)
 				&& Objects.equals(id, other.id) && Objects.equals(nome, other.nome)
 				&& Objects.equals(sobrenome, other.sobrenome);

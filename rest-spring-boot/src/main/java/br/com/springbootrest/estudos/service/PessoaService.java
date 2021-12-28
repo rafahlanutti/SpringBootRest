@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.springbootrest.estudos.data.model.Pessoa;
-import br.com.springbootrest.estudos.data.vo.PessoaVO;
+import br.com.springbootrest.estudos.core.data.model.Pessoa;
+import br.com.springbootrest.estudos.core.data.vo.PessoaVO;
 import br.com.springbootrest.estudos.exception.ResourceNotFoundException;
 import br.com.springbootrest.estudos.mapper.DozerMapper;
 import br.com.springbootrest.estudos.repository.PessoaRepository;

@@ -1,4 +1,4 @@
-package br.com.springbootrest.estudos.calculo;
+package br.com.springbootrest.estudos.core.calculo;
 
 public interface Calculos {
 

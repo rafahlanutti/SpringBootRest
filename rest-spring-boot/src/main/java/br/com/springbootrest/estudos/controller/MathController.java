@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.springbootrest.estudos.calculo.Calculos;
-import br.com.springbootrest.estudos.calculo.DecimalFormat;
+import br.com.springbootrest.estudos.core.calculo.Calculos;
+import br.com.springbootrest.estudos.core.calculo.DecimalFormat;
 import br.com.springbootrest.estudos.exception.UnsuportedMathOperationException;
 
 @RestController

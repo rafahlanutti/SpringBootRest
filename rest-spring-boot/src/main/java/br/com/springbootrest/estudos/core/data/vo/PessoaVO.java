@@ -1,38 +1,26 @@
-package br.com.springbootrest.estudos.data.model;
+package br.com.springbootrest.estudos.core.data.vo;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+/**
+ * Value Objects pattern
+ * 
+ * @author rafa
+ *
+ */
+public class PessoaVO {
 
-@Entity
-@Table(name = "pessoa")
-public class Pessoa implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, length = 100)
 	private String nome;
 
-	@Column(nullable = false, length = 100)
 	private String sobrenome;
 
-	@Column(nullable = false, length = 10)
 	private String genero;
 
-	@Column(nullable = false, length = 100)
 	private String endereco;
 
-	public Pessoa() {
+	public PessoaVO() {
 		super();
 	}
 
@@ -76,10 +64,6 @@ public class Pessoa implements Serializable {
 		this.endereco = endereco;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(endereco, genero, id, nome, sobrenome);
@@ -93,7 +77,7 @@ public class Pessoa implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pessoa other = (Pessoa) obj;
+		PessoaVO other = (PessoaVO) obj;
 		return Objects.equals(endereco, other.endereco) && Objects.equals(genero, other.genero)
 				&& Objects.equals(id, other.id) && Objects.equals(nome, other.nome)
 				&& Objects.equals(sobrenome, other.sobrenome);
