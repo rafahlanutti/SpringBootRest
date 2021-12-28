@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import org.springframework.hateoas.ResourceSupport;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
@@ -16,7 +15,7 @@ import com.github.dozermapper.core.Mapping;
  * @author rafa
  *
  */
-@JsonPropertyOrder({"id", "nome", "sobrenome", "endereco", "genero"})
+@JsonPropertyOrder({ "id", "nome", "sobrenome", "endereco", "genero" })
 public class PessoaVO extends ResourceSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
