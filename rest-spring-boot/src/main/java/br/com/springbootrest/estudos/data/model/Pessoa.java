@@ -1,4 +1,4 @@
-package br.com.springbootrest.estudos.model;
+package br.com.springbootrest.estudos.data.model;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.springbootrest.estudos.model.Pessoa;
+import br.com.springbootrest.estudos.data.model.Pessoa;
 import br.com.springbootrest.estudos.service.PessoaService;
 
 @RestController
