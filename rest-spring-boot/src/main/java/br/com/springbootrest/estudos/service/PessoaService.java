@@ -1,56 +1,48 @@
 package br.com.springbootrest.estudos.service;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.springbootrest.estudos.exception.ResourceNotFoundException;
 import br.com.springbootrest.estudos.model.Pessoa;
+import br.com.springbootrest.estudos.repository.PessoaRepository;
 
 @Service
 public class PessoaService {
 
-	private final AtomicLong counter = new AtomicLong();
+	@Autowired
+	private PessoaRepository repository;
 
-	public Pessoa obterPorId(String id) {
-		return criarPessoaMock();
-	}
-
-	private Pessoa criarPessoaMock() {
-		Pessoa pessoa = new Pessoa();
-		pessoa.setId(counter.getAndIncrement());
-		pessoa.setEndereco("Heitor de Moura Estev�o - Teres�polis - RJ");
-		pessoa.setGenero("Masculino");
-		pessoa.setNome("Rafael");
-		pessoa.setSobrenome("Lanutti");
-		return pessoa;
+	public Pessoa obterPorId(Long id) {
+		return repository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Não encontrou nada com esse ID"));
 	}
 
 	public List<Pessoa> obterTodos() {
-
-		return Arrays.asList(criarPessoaMock(), criarPessoaMock(), criarPessoaMock());
+		return repository.findAll();
 	}
 
 	public Pessoa criar(Pessoa pessoa) {
-		/**
-		 * Logica de programação para criar
-		 */
-		return pessoa;
+		return repository.save(pessoa);
 	}
 
 	public Pessoa atualizar(Pessoa pessoa) {
-		/**
-		 * Logica de programação para atualizar
-		 */
-		return pessoa;
+
+		var entity = this.obterPorId(pessoa.getId());
+
+		entity.setEndereco(pessoa.getEndereco());
+		entity.setGenero(pessoa.getGenero());
+		entity.setNome(pessoa.getNome());
+		entity.setSobrenome(pessoa.getSobrenome());
+
+		return repository.save(entity);
 	}
-	
-	public void deletar(String id) {
-		/**
-		 * Logica de programação para deletar
-		 */
+
+	public void deletar(Long id) {
+
+		repository.delete(this.obterPorId(id));
 	}
-	
 
 }

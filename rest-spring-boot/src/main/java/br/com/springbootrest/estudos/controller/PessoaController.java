@@ -3,7 +3,7 @@ package br.com.springbootrest.estudos.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,29 +23,30 @@ public class PessoaController {
 	@Autowired
 	private PessoaService service;
 
-	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@GetMapping
 	public List<Pessoa> findAll() {
 		return service.obterTodos();
 	}
 
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public Pessoa findById(@PathVariable("id") String id) {
+	@GetMapping("/{id}")
+	public Pessoa findById(@PathVariable("id") Long id) {
 		return service.obterPorId(id);
 	}
 
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping
 	public Pessoa create(@RequestBody Pessoa pessoa) {
 		return service.criar(pessoa);
 	}
 
-	@PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PutMapping
 	public Pessoa put(@RequestBody Pessoa pessoa) {
 		return service.atualizar(pessoa);
 	}
 
-	@DeleteMapping(value = "/{id}")
-	public void delete(@PathVariable("id") String id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		service.deletar(id);
+		return ResponseEntity.ok().build();
 	}
 
 }
