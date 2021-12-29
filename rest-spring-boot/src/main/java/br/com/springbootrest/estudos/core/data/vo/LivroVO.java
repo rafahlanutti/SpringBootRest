@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 
-@JsonPropertyOrder({ "id", "titulo", "autor", "dataDeLancamento", "preco"})
-public class LivroVO extends ResourceSupport implements Serializable {
+@JsonPropertyOrder({ "id", "titulo", "autor", "dataDeLancamento", "preco" })
+public class LivroVO extends RepresentationModel<LivroVO> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

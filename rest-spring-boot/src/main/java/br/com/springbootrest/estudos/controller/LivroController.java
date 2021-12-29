@@ -1,7 +1,7 @@
 package br.com.springbootrest.estudos.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.springbootrest.estudos.core.data.vo.LivroVO;
 import br.com.springbootrest.estudos.service.LivroService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Api(value = "Endpoint Livros", tags = { "API livros" })
+@Tag(name = "Endpoint Livros")
 @RestController
 @RequestMapping("api/v1/livro")
 public class LivroController {
@@ -29,7 +29,7 @@ public class LivroController {
 	@Autowired
 	private LivroService service;
 
-	@ApiOperation(value = "Obter todos os livros")
+	@Operation(summary = "Obter todos os livros")
 	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
 	public List<LivroVO> findAll() {
 		var livros = service.obterTodos();
@@ -38,7 +38,7 @@ public class LivroController {
 		return livros;
 	}
 
-	@ApiOperation(value = "Obter livro pelo ID")
+	@Operation(summary = "Obter livro pelo ID")
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	public LivroVO findById(@PathVariable("id") Long id) {
 		var livro = service.obterPorId(id);
@@ -47,7 +47,7 @@ public class LivroController {
 		return livro;
 	}
 
-	@ApiOperation(value = "Criar nova livros")
+	@Operation(summary = "Criar nova livros")
 	@PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
 	public LivroVO create(@RequestBody LivroVO livro) {
@@ -57,7 +57,7 @@ public class LivroController {
 
 	}
 
-	@ApiOperation(value = "Alterar livro")
+	@Operation(summary = "Alterar livro")
 	@PutMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
 	public LivroVO put(@RequestBody LivroVO livro) {
@@ -67,7 +67,7 @@ public class LivroController {
 
 	}
 
-	@ApiOperation(value = "Deletar livro")
+	@Operation(summary = "Deletar livro")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		service.deletar(id);

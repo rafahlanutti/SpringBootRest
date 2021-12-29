@@ -1,16 +1,14 @@
 package br.com.springbootrest.estudos.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.PagedResources;
-import org.springframework.http.HttpStatus;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.springbootrest.estudos.core.data.vo.PessoaVO;
 import br.com.springbootrest.estudos.service.PessoaService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Api(value = "Endpoint Pessoas", tags = { "API Pessoa" })
+@Tag(name = "Endpoint Pessoas")
 @RestController
 @RequestMapping("api/v1/pessoa")
 public class PessoaController {
@@ -35,12 +33,9 @@ public class PessoaController {
 	@Autowired
 	private PessoaService service;
 
-	@Autowired
-	private PagedResourcesAssembler<PessoaVO> assembler;
-
-	@ApiOperation(value = "Obter todas as pessoas")
+	@Operation(summary = "Obter todas as pessoas")
 	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
-	public ResponseEntity<PagedResources<?>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
+	public ResponseEntity<CollectionModel<PessoaVO>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "10") int limit,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
 
@@ -50,13 +45,14 @@ public class PessoaController {
 		Page<PessoaVO> pessoas = service.obterPorPaginacao(pageble);
 
 		pessoas.forEach(p -> p.add(linkTo(methodOn(PessoaController.class).findById(p.getKey())).withSelfRel()));
-		return new ResponseEntity<>(assembler.toResource(pessoas), HttpStatus.OK);
+		return ResponseEntity.ok(CollectionModel.of(pessoas));
 	}
 
-	@ApiOperation(value = "Obter pessoa pelo primeiro nome")
+	@Operation(summary = "Obter pessoa pelo primeiro nome")
 	@GetMapping(value = "/findByName/{firstName}", produces = { "application/json", "application/xml",
 			"application/x-yaml" })
-	public ResponseEntity<PagedResources<?>> findByName(@RequestParam(value = "page", defaultValue = "0") int page,
+	public ResponseEntity<CollectionModel<PessoaVO>> findByName(
+			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "10") int limit,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction,
 			@PathVariable("firstName") String firstName) {
@@ -67,10 +63,10 @@ public class PessoaController {
 		Page<PessoaVO> pessoas = service.obterPeloNome(firstName, pageble);
 
 		pessoas.forEach(p -> p.add(linkTo(methodOn(PessoaController.class).findById(p.getKey())).withSelfRel()));
-		return new ResponseEntity<>(assembler.toResource(pessoas), HttpStatus.OK);
+		return ResponseEntity.ok(CollectionModel.of(pessoas));
 	}
 
-	@ApiOperation(value = "Obter Pessoa pelo ID")
+	@Operation(summary = "Obter Pessoa pelo ID")
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO findById(@PathVariable("id") Long id) {
 		var pessoa = service.obterPorId(id);
@@ -79,7 +75,7 @@ public class PessoaController {
 		return pessoa;
 	}
 
-	@ApiOperation(value = "Criar nova Pessoa")
+	@Operation(summary = "Criar nova Pessoa")
 	@PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO create(@RequestBody PessoaVO pessoa) {
@@ -89,7 +85,7 @@ public class PessoaController {
 
 	}
 
-	@ApiOperation(value = "Alterar Pessoa")
+	@Operation(summary = "Alterar Pessoa")
 	@PutMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
 			"application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO put(@RequestBody PessoaVO pessoa) {
@@ -99,7 +95,7 @@ public class PessoaController {
 
 	}
 
-	@ApiOperation(value = "Deletar Pessoa")
+	@Operation(summary = "Deletar Pessoa")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		service.deletar(id);

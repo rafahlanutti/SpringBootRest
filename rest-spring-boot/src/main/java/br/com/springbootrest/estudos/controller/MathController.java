@@ -9,17 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.springbootrest.estudos.core.calculo.Calculos;
 import br.com.springbootrest.estudos.core.calculo.DecimalFormat;
 import br.com.springbootrest.estudos.exception.UnsuportedMathOperationException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Api(value = "Endpoint Calculadora", tags = { "API Calculos"})
+@Tag(name = "Endpoint Calculadora")
 @RestController
 @RequestMapping("api/v1/pessoa")
 public class MathController {
 
 	@Autowired
 	private Calculos calculadora;
-	@ApiOperation(value = "Soma dois números A + B = resultado")
+
+	@Operation(summary = "Soma dois números A + B = resultado")
 	@GetMapping(value = "/soma/{a}/{b}")
 	public Double soma(@PathVariable("a") String a, @PathVariable("b") String b)
 			throws UnsuportedMathOperationException {
@@ -29,7 +30,8 @@ public class MathController {
 		}
 		throw new UnsuportedMathOperationException("Please set a numeric value!");
 	}
-	@ApiOperation(value = "Subtrai dois números A - B = resultado")
+
+	@Operation(summary = "Subtrai dois números A - B = resultado")
 	@GetMapping(value = "/subtracao/{a}/{b}")
 	public Double subtracao(@PathVariable("a") String a, @PathVariable("b") String b)
 			throws UnsuportedMathOperationException {
@@ -39,7 +41,8 @@ public class MathController {
 		}
 		throw new UnsuportedMathOperationException("Please set a numeric value!");
 	}
-	@ApiOperation(value = "Divide dois números dividendo / divisor = resultado")
+
+	@Operation(summary = "Divide dois números dividendo / divisor = resultado")
 	@GetMapping(value = "/divisao/{dividendo}/{divisor}")
 	public Double divisao(@PathVariable("dividendo") String dividendo, @PathVariable("divisor") String divisor)
 			throws UnsuportedMathOperationException {
@@ -49,7 +52,8 @@ public class MathController {
 		}
 		throw new UnsuportedMathOperationException("Please set a numeric value!");
 	}
-	@ApiOperation(value = "Multiplica dois números multiplicando * multiplicador = resultado")
+
+	@Operation(summary = "Multiplica dois números multiplicando * multiplicador = resultado")
 	@GetMapping(value = "/multiplicacao/{multiplicando}/{multiplicador}")
 	public Double multiplicacao(@PathVariable("multiplicando") String multiplicando,
 			@PathVariable("multiplicador") String multiplicador) throws UnsuportedMathOperationException {
