@@ -29,6 +29,12 @@ public class PessoaService {
 
 	}
 
+	public Page<PessoaVO> obterPeloNome(String nome, PageRequest pageble) {
+		var pagina = repository.obterPeloNome(nome, pageble);
+		return pagina.map(this::convertToPessoaVO);
+
+	}
+
 	private PessoaVO convertToPessoaVO(Pessoa entity) {
 		return DozerMapper.parseObject(entity, PessoaVO.class);
 	}

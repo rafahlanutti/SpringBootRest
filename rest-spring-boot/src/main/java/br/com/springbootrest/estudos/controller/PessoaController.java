@@ -35,17 +35,36 @@ public class PessoaController {
 	@Autowired
 	private PessoaService service;
 
+	@Autowired
+	private PagedResourcesAssembler<PessoaVO> assembler;
+
 	@ApiOperation(value = "Obter todas as pessoas")
 	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
-	public ResponseEntity<PagedResources<PessoaVO>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
+	public ResponseEntity<PagedResources<?>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "10") int limit,
-			@RequestParam(value = "direction", defaultValue = "asc") String direction,
-			PagedResourcesAssembler assembler) {
+			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
 
 		var sort = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 
 		var pageble = PageRequest.of(page, limit, Sort.by(sort, "nome"));
 		Page<PessoaVO> pessoas = service.obterPorPaginacao(pageble);
+
+		pessoas.forEach(p -> p.add(linkTo(methodOn(PessoaController.class).findById(p.getKey())).withSelfRel()));
+		return new ResponseEntity<>(assembler.toResource(pessoas), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "Obter pessoa pelo primeiro nome")
+	@GetMapping(value = "/findByName/{firstName}", produces = { "application/json", "application/xml",
+			"application/x-yaml" })
+	public ResponseEntity<PagedResources<?>> findByName(@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@PathVariable("firstName") String firstName) {
+
+		var sort = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+
+		var pageble = PageRequest.of(page, limit, Sort.by(sort, "nome"));
+		Page<PessoaVO> pessoas = service.obterPeloNome(firstName, pageble);
 
 		pessoas.forEach(p -> p.add(linkTo(methodOn(PessoaController.class).findById(p.getKey())).withSelfRel()));
 		return new ResponseEntity<>(assembler.toResource(pessoas), HttpStatus.OK);
