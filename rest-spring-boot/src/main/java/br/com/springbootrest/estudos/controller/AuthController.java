@@ -34,6 +34,8 @@ public class AuthController {
 	@Autowired
 	UserRepository repository;
 
+	
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/signin", produces = { "application/json", "application/xml",
 			"application/x-yaml" }, consumes = { "application/json", "application/xml", "application/x-yaml" })
 	public ResponseEntity signin(@RequestBody AccountCredentialsVO data) {

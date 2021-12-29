@@ -1,8 +1,8 @@
 package br.com.springbootrest.estudos.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import br.com.springbootrest.estudos.core.data.model.Pessoa;
@@ -23,8 +23,14 @@ public class PessoaService {
 				.orElseThrow(() -> new ResourceNotFoundException("Não encontrou nada com esse ID")), PessoaVO.class);
 	}
 
-	public List<PessoaVO> obterTodos() {
-		return DozerMapper.parseListObjects(repository.findAll(), PessoaVO.class);
+	public Page<PessoaVO> obterPorPaginacao(PageRequest pageble) {
+		var pagina = repository.findAll(pageble);
+		return pagina.map(this::convertToPessoaVO);
+
+	}
+
+	private PessoaVO convertToPessoaVO(Pessoa entity) {
+		return DozerMapper.parseObject(entity, PessoaVO.class);
 	}
 
 	public PessoaVO criar(PessoaVO pessoaVO) {

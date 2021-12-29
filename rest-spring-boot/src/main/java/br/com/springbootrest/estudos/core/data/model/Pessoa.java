@@ -20,17 +20,18 @@ public class Pessoa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 200)
 	private String nome;
 
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 300)
 	private String sobrenome;
 
-	@Column(nullable = false, length = 10)
+	@Column(nullable = false, length = 20)
 	private String genero;
 
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 200)
 	private String endereco;
+	
 
 	public Pessoa() {
 		super();
